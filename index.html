@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>COVID19 Twitter Analysis: A Machine Learning Approach </title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+  <script type="text/javascript"
+  src="https://public.tableau.com/javascripts/api/tableau-2.min.js"></script>
+  <script type="text/javascript">
+      function initViz() {
+          var containerDiv = document.getElementById("vizContainer"),
+              url = "https://prod-useast-a.online.tableau.com/t/hsrjason/views/Tweet_analysis/TwitterAnalysis?:display_count=n&:showAppBanner=false&:origin=viz_share_link&:showVizHome=n",
+              options = {
+                  hideTabs: true,
+                  onFirstInteractive: function () {
+                      console.log("Run this code when the viz has finished loading.");
+                  }
+              };
+
+          var viz = new tableau.Viz(containerDiv, url, options);
+          // Create a viz object and embed it in the container div.
+      }
+  </script>
+
+
+
+
+</head>
+
+<body onload="initViz();">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 jumbotron text-center">
+        <h1>COVID-19: Twitter Sentiment  </h1>
+        <p> A machine learning analysis for natural language processing</p>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="container">
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h3 class="panel-title">Background and Methods</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <h2>Dynamic Tabs</h2>
+    <p>To make the tabs toggleable, add the data-toggle="tab" attribute to each link. Then add a .tab-pane class with a unique ID for every tab and wrap them inside a div element with class .tab-content.</p>
+   -->
+    <ul class="nav nav-tabs">
+      <li class="active"><a data-toggle="tab" href="#home">Motivations</a></li>
+      <li><a data-toggle="tab" href="#menu1">Twitter Data</a></li>
+      <li><a data-toggle="tab" href="#menu2">Machine Learning</a></li>
+      <li><a data-toggle="tab" href="#menu3">Limitations</a></li>
+    </ul>
+  
+    <div class="tab-content">
+      <div id="home" class="tab-pane fade in active">
+        <h3>Twitter Users and COVID-19</h3>
+        <!-- <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p> -->
+        <ul>
+          <li>COVID-19 is impacting our daily life </li>
+          <li>62.5 million Twitter users in the United States</li>
+          <li>Sentiment: people's attitude toward COVID-19  </li>
+          <li>Potential Topics: Health, safty, economics, social distancing, and school reopenings </li>
+          <!-- <li> </li> -->
+          <!-- <li> </li> -->
+        </ul>
+      </div>
+      <div id="menu1" class="tab-pane fade">
+        <h3>Twitter Data and Sentiment Analyses</h3>
+        <p>This section explains how to get the data, clean up, and conduct sentiment analysis</p>
+        <article class="description-content">
+          <!-- <h1 class="description-header">Data Analysis</h1>
+          <hr class="description-hr"/> -->
+          <!-- <p>Twitter Data</p> -->
+          <ul>
+            <li>Twitter API: 8 days of data (Aug 08 to Aug 15) </li>
+            <li>Limited to 5000 tweets per day related to COVID-19: English, within United States </li>
+            <li>Search key words: </li>
+              <p>&nbsp;&nbsp; corona, #corona, coronavirus, #coronavirus, covid, #covid, covid19, #covid-19, sarscov2, #sarscov2, sars cov2, sars cov 2, covid_19, #covid_19, #ncov, ncov, #ncov2019, ncov2019, 2019-ncov, #2019-ncov, pandemic, #pandemic, #2019ncov, 2019ncov</p>
+            <li>A total of 40K Tweets </li>
+            <li>Sentiment analysis: </li>
+              <p>&nbsp;&nbsp; The process of ‘computationally’ determining whether a piece of writing is positive, negative or neutral. It’s also known as opinion mining.</p>
+            <!-- <li> </li> -->
+            <li>Twitter API account; Tweepy.Cursor; TextBlob (data elemenets shown below):
+              <p>&nbsp;&nbsp; 'created_at', 'id', 'id_str', 'full_text', 'truncated', 'display_text_range', 'entities', 'metadata', 'source','in_reply_to_status_id', 'in_reply_to_status_id_str','in_reply_to_user_id', 'in_reply_to_user_id_str','in_reply_to_screen_name', 'user','geo', 'coordinates', 'place','contributors', 'is_quote_status', 'retweet_count', 'favorite_count','favorited', 'retweeted', 'lang','quoted_status_id','quoted_status_id_str', 'quoted_status', 'possibly_sensitive','extended_entities'
+              </p>
+            </li>
+
+            <li>Examples:
+              <p>&nbsp;&nbsp; 1	--- I have followed this gentleman for the past several weeks. With family in #SouthDakota it would be great if @govkristinoem focused on her state as much as Jim does. So grateful to be in #Colorado and the way @GovofCO has been handling the pandemic. #WearAMask #DoingMyPartCO https://t.co/1o8w48NIqF
+              </p>
+              <p>&nbsp;&nbsp; 0	--- Solution - funding from Congress. Limiting overtime during a pandemic when the health of voters is at risk- is helpful to the man not wanting D to vote by mail. Voter suppression!! https://t.co/Mi37AebdkE
+              </p>
+              <p>&nbsp;&nbsp; -1 ---	"Covid sucks!!" chant just broke out at the @RichmondKickers game. #rva
+              </p>
+            </li>
+
+          </ul>
+        </article>
+      </div>
+
+      <div id="menu2" class="tab-pane fade">
+        <h3>Machine Learning and Natual Language Processing</h3>
+        <p>This section explains how to use machine learning techniques to determine number of topics in tweets</p>
+        <article class="description-content">
+          <!-- <h1 class="description-header">Data Analysis</h1>
+          <hr class="description-hr"/> -->
+          <!-- <p>Twitter Data</p> -->
+          <ul>
+            <li>Cleaning and pre-processing:</li>
+                <ul>
+                  <li>Stopwords removed</li>
+                  <li>All words lower case</li>
+                  <li>All sepcial characters removed: "\"|\.|\?|\!|\,|\-|\_|\(|\)|\{|\}|\/|\=|\+|\:"  </li>
+                  <li>Splitted and stemmed (example):
+                    <p>&nbsp;&nbsp; Before: "You really can't make this stuff up. As Columbia County suffers a #COVID19 spike due to golfing events. Sen. Jordan shows us just what those events looked like by attending a political golf event in Easton with NO MASKS and NO SOCIAL DISTANCING. #NewYork #MaskUp https://t.co/zeOe511KdM"</p>
+                    <p>&nbsp;&nbsp; After: "realli can't make stuff columbia counti suffer #covid19 spike due golf event sen jordan show us event look like attend polit golf event easton mask social distanc #newyork #maskup http co zeoe511kdm"</p>
+                  </li>
+                </ul>
+            <li>Final words count: >70K (18k words showed up more than once)</li>
+              <p>&nbsp;&nbsp; Top 400 words were seleted and 140 words were mannually removed (e.g. he, did, go, yo, yeserday, etc). Final key words: 260</p>
+            <li>Machine Learning </li>
+                <ul>
+                  <li>Latent Dirichlet Allocation (LDA): Unsupervised learning for clusterings, themes, topics</li>
+                  <li>Grid search: n = 2 clusterings</li>
+                  <li>From 2 up to 8 clusterings: human choice of 5 clusterings:
+                    <p>&nbsp;&nbsp; School_reopening (n=8557): school play footbal back week season colleg kid player sport cancel fall team game health risk plan check children high concern big athlet year take wonder free open reopen confer</p>
+                    <p>&nbsp;&nbsp; 2020_Election (n=7945): trump realdonaldtrump american vote respons peopl presid elect america kill countri mail help state million think unemploy relief world money economi order call democrat gop take biden lie fund hous</p>
+                    <p>&nbsp;&nbsp; State_News_Economy (n=7184): test new time case death posit state thank today well number report job work amp result rate first back florida hospit quarantin neg last summer total stori open health good</p>
+                    <p>&nbsp;&nbsp; Policies_Mask_Safty (n=8650): amp like mask peopl wear feel social student commun work spread safe help real everyon post love distanc put great famili face take hope stay live way time person talk</p>
+                    <p>&nbsp;&nbsp; General_Critics (n=7664): die peopl month year vaccin fuck home live shit good take pleas sick work life mani busi flu last first right stop kid think patient care immun caus old nurs</p>
+                  </li>
+                </ul>
+            <!-- <li> </li> -->
+          </ul>
+        </article>
+      </div>
+      <div id="menu3" class="tab-pane fade">
+        <h3>Future Directions and Limitations</h3>
+        <p>This section will highlight some of the limitations, and also discuss some future directions</p>
+        <ul>
+          <li>Sample of tweets:</li>
+              <p>&nbsp;Only 40k tweets analyzed </p>
+              <p>&nbsp;Cancer:	107 mentioned in the full tweet texts</p>
+                <!-- <li>Splitted and stemmed (example):
+                  <p>&nbsp;&nbsp; Before: "You really can't make this stuff up. As Columbia County suffers a #COVID19 spike due to golfing events. Sen. Jordan shows us just what those events looked like by attending a political golf event in Easton with NO MASKS and NO SOCIAL DISTANCING. #NewYork #MaskUp https://t.co/zeOe511KdM"</p>
+                  <p>&nbsp;&nbsp; After: "realli can't make stuff columbia counti suffer #covid19 spike due golf event sen jordan show us event look like attend polit golf event easton mask social distanc #newyork #maskup http co zeoe511kdm"</p>
+                </li> -->
+
+          <li>Machine Learning:</li>
+            <p>&nbsp;Top 260 words only </p>
+          <!-- <li>Machine Learning </li>
+              <ul>
+                <li>Latent Dirichlet Allocation (LDA): Unsupervised learning for clusterings, themes, topics</li>
+                <li>Grid search: n = 2 clusterings</li>
+                <li>From 2 up to 8 clusterings: human choice of 5 clusterings:
+                  <p>&nbsp;&nbsp; School_reopening (n=8557): school play footbal back week season colleg kid player sport cancel fall team game health risk plan check children high concern big athlet year take wonder free open reopen confer</p>
+                  <p>&nbsp;&nbsp; 2020_Election (n=7945): trump realdonaldtrump american vote respons peopl presid elect america kill countri mail help state million think unemploy relief world money economi order call democrat gop take biden lie fund hous</p>
+                  <p>&nbsp;&nbsp; State_News_Economy (n=7184): test new time case death posit state thank today well number report job work amp result rate first back florida hospit quarantin neg last summer total stori open health good</p>
+                  <p>&nbsp;&nbsp; Policies_Mask_Safty (n=8650): amp like mask peopl wear feel social student commun work spread safe help real everyon post love distanc put great famili face take hope stay live way time person talk</p>
+                  <p>&nbsp;&nbsp; General_Critics (n=7664): die peopl month year vaccin fuck home live shit good take pleas sick work life mani busi flu last first right stop kid think patient care immun caus old nurs</p>
+                </li>
+              </ul> -->
+          <!-- <li> </li> -->
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  
+
+<!-- 
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h3 class="panel-title">Motivation</h3>
+          </div>
+          <div id="sample-metadata" class="panel-body"></div>
+          <section class="row">
+            <div class="col-md-12">
+              <article class="description-content"> -->
+                <!-- <h1 class="description-header">Data Analysis</h1>
+                <hr class="description-hr"/> -->
+                <!-- <p>Twitter Data</p> -->
+                <!-- <ul>
+                  <li>COVID-19 is impacting our daily life </li>
+                  <li>62.5 million Twitter users in the United States</li>
+                  <li>Sentiment: people's attitude toward COVID-19  </li>
+                  <li>Potential Topics: Health, safty, economics, social distancing, and school reopenings </li> -->
+                  <!-- <li> </li> -->
+                  <!-- <li> </li> -->
+                <!-- </ul>
+              </article>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+
+  <!-- <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h3 class="panel-title">Twitter Data Analyses</h3>
+          </div>
+          <div id="sample-metadata" class="panel-body"></div>
+          <section class="row">
+            <div class="col-md-12">
+              <article class="description-content"> -->
+                <!-- <h1 class="description-header">Data Analysis</h1>
+                <hr class="description-hr"/> -->
+                <!-- <p>Twitter Data</p> -->
+                <!-- <ul>
+                  <li>Twitter API: 8 days of data (Aug 08 to Aug 15) </li>
+                  <li>Limited to 5000 tweets per day related to COVID-19: English, within United States </li>
+                  <li>Search key words: </li>
+                    <p>&nbsp;&nbsp; corona, #corona, coronavirus, #coronavirus, covid, #covid, covid19, #covid-19, sarscov2, #sarscov2, sars cov2, sars cov 2, covid_19, #covid_19, #ncov, ncov, #ncov2019, ncov2019, 2019-ncov, #2019-ncov, pandemic, #pandemic, #2019ncov, 2019ncov</p>
+                  <li>A total of 40K Tweets </li>
+                  <li>Sentiment analysis: </li>
+                    <p>&nbsp;&nbsp; The process of ‘computationally’ determining whether a piece of writing is positive, negative or neutral. It’s also known as opinion mining.</p> -->
+                  <!-- <li> </li> -->
+                  <!-- <li>Twitter API account; Tweepy.Cursor; TextBlob (data elemenets shown below):
+                    <p>&nbsp;&nbsp; 'created_at', 'id', 'id_str', 'full_text', 'truncated', 'display_text_range', 'entities', 'metadata', 'source','in_reply_to_status_id', 'in_reply_to_status_id_str','in_reply_to_user_id', 'in_reply_to_user_id_str','in_reply_to_screen_name', 'user','geo', 'coordinates', 'place','contributors', 'is_quote_status', 'retweet_count', 'favorite_count','favorited', 'retweeted', 'lang','quoted_status_id','quoted_status_id_str', 'quoted_status', 'possibly_sensitive','extended_entities'
+                    </p>
+                  </li>
+
+                  <li>Examples:
+                    <p>&nbsp;&nbsp; 1	--- I have followed this gentleman for the past several weeks. With family in #SouthDakota it would be great if @govkristinoem focused on her state as much as Jim does. So grateful to be in #Colorado and the way @GovofCO has been handling the pandemic. #WearAMask #DoingMyPartCO https://t.co/1o8w48NIqF
+                    </p>
+                    <p>&nbsp;&nbsp; 0	--- Solution - funding from Congress. Limiting overtime during a pandemic when the health of voters is at risk- is helpful to the man not wanting D to vote by mail. Voter suppression!! https://t.co/Mi37AebdkE
+                    </p>
+                    <p>&nbsp;&nbsp; -1 ---	"Covid sucks!!" chant just broke out at the @RichmondKickers game. #rva
+                    </p>
+                  </li>
+
+                </ul>
+              </article>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+<!-- 
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h3 class="panel-title">Natural Language Processing and Machine Learning</h3>
+          </div>
+          <div id="sample-metadata" class="panel-body"></div>
+          <section class="row">
+            <div class="col-md-12">
+              <article class="description-content"> -->
+                <!-- <h1 class="description-header">Data Analysis</h1>
+                <hr class="description-hr"/> -->
+                <!-- <p>Twitter Data</p> -->
+                <!-- <ul>
+                  <li>Cleaning and pre-processing:</li>
+                      <ul>
+                        <li>Stopwords removed</li>
+                        <li>All words lower case</li>
+                        <li>All sepcial characters removed: "\"|\.|\?|\!|\,|\-|\_|\(|\)|\{|\}|\/|\=|\+|\:"  </li>
+                        <li>Splitted and stemmed (example):
+                          <p>&nbsp;&nbsp; Before: "You really can't make this stuff up. As Columbia County suffers a #COVID19 spike due to golfing events. Sen. Jordan shows us just what those events looked like by attending a political golf event in Easton with NO MASKS and NO SOCIAL DISTANCING. #NewYork #MaskUp https://t.co/zeOe511KdM"</p>
+                          <p>&nbsp;&nbsp; After: "realli can't make stuff columbia counti suffer #covid19 spike due golf event sen jordan show us event look like attend polit golf event easton mask social distanc #newyork #maskup http co zeoe511kdm"</p>
+                        </li>
+                      </ul>
+                  <li>Final words count: >70K (18k words showed up more than once)</li>
+                    <p>&nbsp;&nbsp; Top 400 words were seleted and 140 words were mannually removed (e.g. he, did, go, yo, yeserday, etc). Final key words: 260</p>
+                  <li>Machine Learning </li>
+                      <ul>
+                        <li>Latent Dirichlet Allocation (LDA): Unsupervised learning for clusterings, themes, topics</li>
+                        <li>Grid search: n = 2 clusterings</li>
+                        <li>From 2 up to 8 clusterings: human choice of 5 clusterings:
+                          <p>&nbsp;&nbsp; School_reopening (n=8557): school play footbal back week season colleg kid player sport cancel fall team game health risk plan check children high concern big athlet year take wonder free open reopen confer</p>
+                          <p>&nbsp;&nbsp; 2020_Election (n=7945): trump realdonaldtrump american vote respons peopl presid elect america kill countri mail help state million think unemploy relief world money economi order call democrat gop take biden lie fund hous</p>
+                          <p>&nbsp;&nbsp; State_News_Economy (n=7184): test new time case death posit state thank today well number report job work amp result rate first back florida hospit quarantin neg last summer total stori open health good</p>
+                          <p>&nbsp;&nbsp; Policies_Mask_Safty (n=8650): amp like mask peopl wear feel social student commun work spread safe help real everyon post love distanc put great famili face take hope stay live way time person talk</p>
+                          <p>&nbsp;&nbsp; General_Critics (n=7664): die peopl month year vaccin fuck home live shit good take pleas sick work life mani busi flu last first right stop kid think patient care immun caus old nurs</p>
+                        </li>
+                      </ul> -->
+                  <!-- <li> </li> -->
+                <!-- </ul>
+              </article>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+
+
+
+<div>
+  <div id="death_line"></div>
+</div>
+
+<div class="row">
+      <div class="col-md-12">
+        <p>     </p>
+      </div>
+</div>
+
+<div class="row">
+      <div class="col-md-12">
+        <p>     </p>
+      </div>
+</div>
+
+<div class="row">
+      <div class="col-md-12">
+        <p>     </p>
+      </div>
+</div>
+
+<div class="container">
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title">Main Analyses</h3>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <div class="container">
+    <div class="col-md-12">
+      <div id="vizContainer" style="height:900px;"></div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <p>     </p>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <p>     </p>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <p>     </p>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <p>     </p>
+  </div>
+</div>
+
+
+
+
+
+<div class="row">
+  <div class="col-md-12">
+    <p>     </p>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <p>     </p>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <p>     </p>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <p>     </p>
+  </div>
+</div>
+
+    <!-- Start of footer -->
+    <footer class="footer navbar-fixed-bottom">
+      <div class="two-toned-footer-color"></div>
+      <p class="text-muted text-muted-footer text-center">
+        &copy; Contact information: Zhiyuan "Jason" Zheng (jason.zheng@cancer.org).
+      </p>
+    </footer>
+    <!-- End of footer -->
+
+    <!-- jQuery CDN -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+
+    <!-- Bootstrap CDN -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.js"></script>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <script src="./static/js/app.js"></script>
+
+</body>
+
+</html>
